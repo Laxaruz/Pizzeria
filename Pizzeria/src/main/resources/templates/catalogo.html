@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Pizzas | Pizzería Laxaruz</title>
+</head>
+<body>
+
+<h1>Catálogo de Pizzas</h1>
+
+<!-- Mostrar diferentes controles según si hay usuario en sesión -->
+<p th:if="${session.usuarioLogueado != null}">
+    Bienvenido,
+    <strong th:text="${session.usuarioLogueado.nombre}"></strong> |
+    <a th:href="@{/carrito/ver}">Ver carrito</a> |
+    <a th:href="@{/usuario/logout}">Cerrar sesión</a>
+</p>
+<p th:if="${session.usuarioLogueado == null}">
+    <a th:href="@{/usuario/login}">Iniciar sesión</a> |
+    <a th:href="@{/usuario/registro}">Registrarse</a>
+</p>
+
+<hr/>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Tipo</th>
+        <th>Tamaño</th>
+        <th>Precio</th>
+        <th>Agregar al carrito</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pizza, stat : ${pizzas}">
+        <td th:text="${stat.count}"></td>
+        <td th:text="${pizza.tipo.nombre}"></td>
+        <td th:text="${pizza.tamaño.etiqueta}"></td>
+        <td th:text="${pizza.precio}"></td>
+        <td>
+            <form th:action="@{/carrito/agregar}" method="post">
+                <input type="hidden" name="tipo" th:value="${pizza.tipo}" />
+                <input type="hidden" name="tamaño" th:value="${pizza.tamaño}" />
+                <label>Cantidad:</label>
+                <input type="number" name="cantidad" min="1" value="1" required />
+                <button type="submit">Agregar</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<hr/>
+<div th:insert="fragments/footer :: footer"></div>
+
+</body>
+</html>
