@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión | Pizzería Laxaruz</title>
+</head>
+<body>
+
+<h1>Inicio de Sesión</h1>
+
+<form th:action="@{/usuario/login}" th:object="${usuario}" method="post">
+    <label>Correo electrónico:</label>
+    <input type="email" th:field="*{correo}" required><br/>
+
+    <label>Contraseña:</label>
+    <input type="password" th:field="*{password}" required><br/>
+
+    <button type="submit">Ingresar</button>
+</form>
+
+<div th:if="${error}">
+    <p style="color:red;" th:text="${error}"></p>
+</div>
+
+<p>¿No tienes cuenta?
+    <a th:href="@{/usuario/registro}">Regístrate aquí</a>
+</p>
+
+<hr/>
+<div th:insert="fragments/footer :: footer"></div>
+
+</body>
+</html>
